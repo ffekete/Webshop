@@ -8,6 +8,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import config.UrlConstants;
+import controllers.HomeController;
 
 public class HomeControllerTest{
 

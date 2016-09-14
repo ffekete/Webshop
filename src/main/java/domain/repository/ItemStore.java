@@ -38,4 +38,25 @@ public class ItemStore implements ItemRepository{
         
         return items;
     }
+
+    @Override
+    public ItemInterface findElementById(int id) {
+        ItemInterface result = null;
+        
+        Session session = factory.openSession();
+        Transaction tx = null;
+        
+        try{
+           tx = session.beginTransaction();
+           result = (ItemInterface) session.createQuery(QueryConstants.QERY_ITEM_BY_ID_FROM_REPOSITORY + id).getSingleResult();
+           tx.commit();
+        }catch (HibernateException e) {
+           if (tx!=null) tx.rollback();
+           e.printStackTrace(); 
+        }finally {
+           session.close(); 
+        } 
+        
+        return result;
+    }
 }

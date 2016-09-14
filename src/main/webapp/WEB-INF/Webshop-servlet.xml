@@ -69,4 +69,12 @@
 		class="org.springframework.web.servlet.theme.CookieThemeResolver">
 		<property name="defaultThemeName" value="default" />
 	</bean>
+	
+	<bean class="domain.ShoppingCart" id="shoppingCart" scope="session">
+		<constructor-arg name="content">
+			<list>
+			</list>
+		</constructor-arg>
+		<constructor-arg name="itemRepository" ref="itemStore"></constructor-arg>
+	</bean>
 </beans>
