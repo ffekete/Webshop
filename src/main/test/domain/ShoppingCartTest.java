@@ -11,7 +11,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import domain.repository.ItemRepository;
+import domain.repository.ItemRepositoryInterface;
 
 public class ShoppingCartTest {
     
@@ -20,7 +20,7 @@ public class ShoppingCartTest {
     ShoppingCartInterface shoppingCart;
     
     @Mock
-    ItemRepository itemRepository;
+    ItemRepositoryInterface itemRepository;
     
     ItemInterface book = initializeBook();
     
@@ -38,7 +38,6 @@ public class ShoppingCartTest {
     ItemInterface initializeBook(){
         ItemInterface book = new Item();
         book.setId(1);
-        book.setAvailable(true);
         book.setDescription("Simple book.");
         book.setName("Book");
         book.setPrice(100.045);

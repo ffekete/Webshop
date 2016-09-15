@@ -11,24 +11,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import config.ModelNameConstants;
 import config.UrlConstants;
 import domain.ItemInterface;
+import domain.JoinedItemInterface;
 import domain.ShoppingCartInterface;
-import domain.repository.ItemRepository;
+import domain.repository.ItemRepositoryInterface;
 
 @Controller
 @RequestMapping(path = UrlConstants.LIST_ITEMS_IN_WEBSHOP_URL)
 public class ListItemsController {
 
-    private ItemRepository itemStore;
+    private ItemRepositoryInterface itemStore;
     private ShoppingCartInterface shoppingCart;
     
     @Autowired
-    public ListItemsController(ItemRepository itemStore, ShoppingCartInterface shoppingCart){
+    public ListItemsController(ItemRepositoryInterface itemStore, ShoppingCartInterface shoppingCart){
         this.itemStore = itemStore;
         this.shoppingCart = shoppingCart;
     }
     
     @ModelAttribute(name=ModelNameConstants.ITEM_STORE_MODEL_NAME)
-    public List<ItemInterface> getItemsFromStore(){
+    public List<JoinedItemInterface> getItemsFromStore(){
         return itemStore.listItems();
     }
     

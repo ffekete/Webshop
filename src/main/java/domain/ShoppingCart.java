@@ -3,15 +3,15 @@ package domain;
 import java.util.Iterator;
 import java.util.List;
 
-import domain.repository.ItemRepository;
+import domain.repository.ItemRepositoryInterface;
 
 public class ShoppingCart implements ShoppingCartInterface{
 
-    private ItemRepository itemRepository;
+    private ItemRepositoryInterface itemRepository;
     
     private List<ItemInterface> content;
     
-    public ShoppingCart(List<ItemInterface> content, ItemRepository itemRepository){
+    public ShoppingCart(List<ItemInterface> content, ItemRepositoryInterface itemRepository){
         this.content = content;
         this.itemRepository = itemRepository;
     }

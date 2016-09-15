@@ -3,10 +3,11 @@ package domain.repository;
 import java.util.List;
 
 import domain.ItemInterface;
+import domain.JoinedItemInterface;
 
-public interface ItemRepository {
+public interface ItemRepositoryInterface {
     
-    public List<ItemInterface> listItems();
+    public List<JoinedItemInterface> listItems();
     
     public ItemInterface findElementById(int id);
 }

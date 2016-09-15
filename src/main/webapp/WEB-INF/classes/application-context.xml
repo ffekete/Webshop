@@ -21,6 +21,7 @@
 		<property name="mappingResources">
 			<list>
 				<value>Item.hbm.xml</value>
+				<value>Store.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

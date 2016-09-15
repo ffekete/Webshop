@@ -17,30 +17,41 @@ import config.ModelNameConstants;
 import config.UrlConstants;
 import domain.Item;
 import domain.ItemInterface;
+import domain.JoinedItem;
+import domain.JoinedItemInterface;
 import domain.ShoppingCartInterface;
-import domain.repository.ItemRepository;
+import domain.Store;
+import domain.StoreInterface;
+import domain.repository.ItemRepositoryInterface;
 
 public class ListItemTest {
 
     private MockMvc mvc;
     
-    private List<ItemInterface> mockedList = new LinkedList<ItemInterface>();
+    private List<JoinedItemInterface> mockedList = new LinkedList<JoinedItemInterface>();
+    
+    private List<ItemInterface> mockedShoppingCartList = new LinkedList<ItemInterface>();
     
     @Mock
     private ShoppingCartInterface mockedShoppingCart;
     
     @Mock
-    private ItemRepository itemStore;
+    private ItemRepositoryInterface itemStore;
 
     void setUpMockedList(){
         ItemInterface book = new Item();
         book.setId(1);
-        book.setAvailable(true);
         book.setDescription("Description text");
         book.setName("Book");
         book.setPrice(201.05);
         
-        mockedList.add(book);
+        StoreInterface store = new Store();
+           
+        JoinedItemInterface joinedItem = new JoinedItem();
+        joinedItem.setItem(book);
+        joinedItem.setStore(store);
+        
+        mockedList.add(joinedItem);
         
         MockitoAnnotations.initMocks(this);
     }
@@ -61,7 +72,7 @@ public class ListItemTest {
     @Test
     void testResultShouldContainProperModelName() throws Exception{
         Mockito.when(itemStore.listItems()).thenReturn(mockedList);
-        Mockito.when(mockedShoppingCart.getAllItems()).thenReturn(mockedList);
+        Mockito.when(mockedShoppingCart.getAllItems()).thenReturn(mockedShoppingCartList);
         
         mvc.perform(MockMvcRequestBuilders.get(UrlConstants.LIST_ITEMS_IN_WEBSHOP_URL)).andExpect(MockMvcResultMatchers.model().attributeExists(ModelNameConstants.ITEM_STORE_MODEL_NAME));
     }

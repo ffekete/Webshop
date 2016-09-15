@@ -17,6 +17,9 @@ import org.testng.annotations.Test;
 import config.queries.QueryConstants;
 import domain.Item;
 import domain.ItemInterface;
+import domain.JoinedItemInterface;
+import domain.Store;
+import domain.StoreInterface;
 
 public class ItemStoreTest{
 
@@ -30,11 +33,11 @@ public class ItemStoreTest{
     Transaction transaction;
     
     @Mock
-    Query<ItemInterface> query;
+    Query<Object[]> query;
     
-    private List<ItemInterface> mockedList = new LinkedList<ItemInterface>();
+    private List<Object[]> mockedList = new LinkedList<Object[]>();
 
-    ItemStore itemStore ;
+    ItemStore itemStore;
     
     ItemInterface book;
     
@@ -46,11 +49,15 @@ public class ItemStoreTest{
         
         book = new Item();
         book.setId(1);
-        book.setAvailable(true);
         book.setDescription("Description text");
         book.setName("Book");
         book.setPrice(201.05);
-        mockedList.add(book);
+        
+        StoreInterface store = new Store();
+        
+        Object[] joinedItem = new Object[]{book, store};
+        
+        mockedList.add(joinedItem);
     }
     
     @Test
@@ -62,9 +69,9 @@ public class ItemStoreTest{
         Mockito.when(query.getResultList()).thenReturn(mockedList);
         Mockito.when(session.createQuery(QueryConstants.QERY_ALL_ITEMS_FROM_REPOSITORY)).thenReturn(query);
         
-        List<ItemInterface> result = itemStore.listItems();
+        List<JoinedItemInterface> result = itemStore.listItems();
         
         Assert.assertEquals(result.size(), 1);
-        Assert.assertEquals(result.get(0), book);
+        Assert.assertEquals(result.get(0).getItem(), book);
     }
 }

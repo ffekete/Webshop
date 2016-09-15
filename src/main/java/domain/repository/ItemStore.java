@@ -1,5 +1,7 @@
 package domain.repository;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -9,8 +11,11 @@ import org.hibernate.Transaction;
 
 import config.queries.QueryConstants;
 import domain.ItemInterface;
+import domain.JoinedItem;
+import domain.JoinedItemInterface;
+import domain.StoreInterface;
 
-public class ItemStore implements ItemRepository{
+public class ItemStore implements ItemRepositoryInterface{
 
     private SessionFactory factory;
     
@@ -18,16 +23,26 @@ public class ItemStore implements ItemRepository{
         this.factory = sessionFactory;
     }
     
-    @SuppressWarnings("unchecked")
-    public List<ItemInterface> listItems() {
+    public List<JoinedItemInterface> listItems() {
         Session session = factory.openSession();
         Transaction tx = null;
         
-        List<ItemInterface> items = null;
+        List<JoinedItemInterface> items = new ArrayList<JoinedItemInterface>();
         
         try{
            tx = session.beginTransaction();
-           items = session.createQuery(QueryConstants.QERY_ALL_ITEMS_FROM_REPOSITORY).getResultList();
+           @SuppressWarnings("rawtypes")
+           Iterator iteratorForPairOfItemAndStore = session.createQuery(QueryConstants.QERY_ALL_ITEMS_FROM_REPOSITORY).getResultList().iterator();
+           
+           JoinedItemInterface joinedResult = null;
+           while(iteratorForPairOfItemAndStore.hasNext()){
+               Object[] actualPairOfItemAndStore = (Object[])iteratorForPairOfItemAndStore.next();
+               joinedResult = new JoinedItem();
+               joinedResult.setItem((ItemInterface)actualPairOfItemAndStore[0]);
+               joinedResult.setStore((StoreInterface)actualPairOfItemAndStore[1]);
+               items.add(joinedResult);
+           }
+           
            tx.commit();
         }catch (HibernateException e) {
            if (tx!=null) tx.rollback();
@@ -35,7 +50,7 @@ public class ItemStore implements ItemRepository{
         }finally {
            session.close(); 
         }        
-        
+ 
         return items;
     }
 

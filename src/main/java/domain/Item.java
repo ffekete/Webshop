@@ -1,6 +1,9 @@
 package domain;
 
 public class Item implements ItemInterface{
+    
+    private StoreInterface store;
+    
     private int id;
     
     private double price;
@@ -8,8 +11,6 @@ public class Item implements ItemInterface{
     private String name;
     
     private String description;
-    
-    private boolean available;
     
     public void setPrice(double price) {
         this.price = price;
@@ -27,14 +28,6 @@ public class Item implements ItemInterface{
         return this.name;
     }
 
-    public void setAvailable(boolean available) {
-        this.available = available;
-    }
-
-    public boolean isAvailable() {
-        return this.available;
-    }
-
     public void setDescription(String description) {
         this.description = description;        
     }
@@ -49,6 +42,14 @@ public class Item implements ItemInterface{
     
     public void setId(int id){
         this.id = id;
+    }
+
+    public StoreInterface getStore() {
+        return store;
+    }
+
+    public void setStore(StoreInterface store) {
+        this.store = store;
     }
 
 }

@@ -4,16 +4,16 @@
  "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
 
 <hibernate-mapping>
-   <class name="domain.Item" table="APP.CONCRETE_ITEM">
+   <class name="domain.Store" table="APP.STORE">
       <meta attribute="class-description">
          This class contains the item detail. 
       </meta>
       <id name="id" type="int" column="ID">
-         <generator class="native"/>
+         <generator class="foreign">
+				<param name="property">item</param> <!-- foreign key generator from item field -->
+			</generator>
       </id>
-      <property name="price" column="PRICE" type="double"/>
-      <property name="name" column="NAME" type="string"/>
-      <property name="description" column="DESCRIPTION" type="string"/>
-      <one-to-one name="store" class="domain.Store" cascade="save-update"></one-to-one>
+      <property name="amount" column="amount" type="int"/>
+      <one-to-one name="item" class="domain.Item"></one-to-one>
    </class>
 </hibernate-mapping>

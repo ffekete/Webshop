@@ -9,24 +9,18 @@
 </head>
 <body>
 	<h2><spring:message code="list.title"/></h2>
-		
-		
+	
 		<table id="cart">
 			<tr>
 				<th><spring:message code="item.name.literal"/></th>
 				<th><spring:message code="item.price.literal"/></th>
-				<th><spring:message code="item.description.literal"/></th>
-				<th><spring:message code="item.quantity"/></th>
 				<th><spring:message code="action"/></th>
 			<tr>
 			<c:forEach items="${shoppingCartModel}" var="item">
 			<tr>
 				<td><c:out value="${item.name}"/></td>
 				<td><c:out value="${item.price}"/></td>
-				<td><c:out value="${item.description}"/></td>
-				<c:if test="${item.available == true}"><td><input type="number" name="quantity" min="1" max="99" step="1"/></td><td> <button onClick="parent.location='/webshop/removeItem.html?id=${item.id}'"><spring:message code="item.remove"/></button></td></c:if>
-				<c:if test="${item.available == false}"><td><input type="number" name="quantity" min="0" max="0" step="1"/></td><td><spring:message code="item.outOfStock"/></td></c:if>
-				
+				<td><button onClick="parent.location='/webshop/removeItem.html?id=${item.id}'"><spring:message code="item.remove"/></button></td>
 			</tr>
 			</c:forEach>
 		</table>
@@ -41,12 +35,11 @@
 			<tr>
 			<c:forEach items="${itemStoreModel}" var="item">
 			<tr>
-				<td><c:out value="${item.name}"/></td>
-				<td><c:out value="${item.price}"/></td>
-				<td><c:out value="${item.description}"/></td>
-				<c:if test="${item.available == true}"><td><input type="number" name="quantity" min="1" max="99" step="1"/></td><td> <button onClick="parent.location='/webshop/addItem.html?id=${item.id}'"><spring:message code="item.buy"/></button></td></c:if>
-				<c:if test="${item.available == false}"><td><input type="number" name="quantity" min="0" max="0" step="1"/></td><td><spring:message code="item.outOfStock"/></td></c:if>
-				
+				<td><c:out value="${item.item.name}"/></td>
+				<td><c:out value="${item.item.price}"/></td>
+				<td><c:out value="${item.item.description}"/></td>
+				<td><c:out value="${item.store.amount}"/></td>
+				<c:if test="${item.store.amount > 0}"><td><input type="number" name="quantity" min="1" max="${item.store.amount}" step="1"/></td><td> <button onClick="parent.location='/webshop/addItem.html?id=${item.item.id}'"><spring:message code="item.buy"/></button></td></c:if>
 			</tr>
 			</c:forEach>
 		</table>
