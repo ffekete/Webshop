@@ -37,7 +37,7 @@ public class ItemStoreTest{
     
     private List<Object[]> mockedList = new LinkedList<Object[]>();
 
-    ItemStore itemStore;
+    ItemDAO itemStore;
     
     ItemInterface book;
     
@@ -45,7 +45,7 @@ public class ItemStoreTest{
     void setup(){
         MockitoAnnotations.initMocks(this);
         
-        itemStore = new ItemStore(factory);
+        itemStore = new ItemDAO(factory);
         
         book = new Item();
         book.setId(1);

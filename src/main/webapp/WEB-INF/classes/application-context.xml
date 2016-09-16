@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	   					   http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="itemStore" class="domain.repository.ItemStore">
+	<bean id="itemStore" class="domain.repository.ItemDAO">
 		<constructor-arg name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	

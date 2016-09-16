@@ -21,8 +21,10 @@ public class AddItemToShoppingCartController {
     }
     
     @RequestMapping(method=RequestMethod.GET)
-    public String additemToShoppingCart(@RequestParam(name="id") int id){
-        shoppingCart.addItemById(id);
+    public String additemToShoppingCart(@RequestParam(name="id", required=true) int id, @RequestParam(name="quantity", required=false) Integer quantity){
+        if(quantity!=null)
+            for(int i = 0; i < quantity; i++)
+                shoppingCart.addItemById(id);
         
         return "redirect:list.html";
     }

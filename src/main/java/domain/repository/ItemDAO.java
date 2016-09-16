@@ -15,11 +15,11 @@ import domain.JoinedItem;
 import domain.JoinedItemInterface;
 import domain.StoreInterface;
 
-public class ItemStore implements ItemRepositoryInterface{
+public class ItemDAO implements ItemDAOInterface{
 
     private SessionFactory factory;
     
-    public ItemStore(SessionFactory sessionFactory) {
+    public ItemDAO(SessionFactory sessionFactory) {
         this.factory = sessionFactory;
     }
     
@@ -31,8 +31,7 @@ public class ItemStore implements ItemRepositoryInterface{
         
         try{
            tx = session.beginTransaction();
-           @SuppressWarnings("rawtypes")
-           Iterator iteratorForPairOfItemAndStore = session.createQuery(QueryConstants.QERY_ALL_ITEMS_FROM_REPOSITORY).getResultList().iterator();
+           Iterator<?> iteratorForPairOfItemAndStore = session.createQuery(QueryConstants.QERY_ALL_ITEMS_FROM_REPOSITORY).getResultList().iterator();
            
            JoinedItemInterface joinedResult = null;
            while(iteratorForPairOfItemAndStore.hasNext()){
@@ -44,10 +43,11 @@ public class ItemStore implements ItemRepositoryInterface{
            }
            
            tx.commit();
-        }catch (HibernateException e) {
+        }catch (HibernateException|ClassCastException|NullPointerException e) {
            if (tx!=null) tx.rollback();
            e.printStackTrace(); 
-        }finally {
+        }
+        finally {
            session.close(); 
         }        
  

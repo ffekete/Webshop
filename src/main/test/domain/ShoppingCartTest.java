@@ -11,7 +11,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import domain.repository.ItemRepositoryInterface;
+import domain.repository.ItemDAOInterface;
 
 public class ShoppingCartTest {
     
@@ -20,7 +20,7 @@ public class ShoppingCartTest {
     ShoppingCartInterface shoppingCart;
     
     @Mock
-    ItemRepositoryInterface itemRepository;
+    ItemDAOInterface itemRepository;
     
     ItemInterface book = initializeBook();
     

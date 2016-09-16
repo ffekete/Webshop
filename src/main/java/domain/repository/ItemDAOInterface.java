@@ -5,7 +5,7 @@ import java.util.List;
 import domain.ItemInterface;
 import domain.JoinedItemInterface;
 
-public interface ItemRepositoryInterface {
+public interface ItemDAOInterface {
     
     public List<JoinedItemInterface> listItems();
     

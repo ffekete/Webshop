@@ -13,17 +13,17 @@ import config.UrlConstants;
 import domain.ItemInterface;
 import domain.JoinedItemInterface;
 import domain.ShoppingCartInterface;
-import domain.repository.ItemRepositoryInterface;
+import domain.repository.ItemDAOInterface;
 
 @Controller
 @RequestMapping(path = UrlConstants.LIST_ITEMS_IN_WEBSHOP_URL)
 public class ListItemsController {
 
-    private ItemRepositoryInterface itemStore;
+    private ItemDAOInterface itemStore;
     private ShoppingCartInterface shoppingCart;
     
     @Autowired
-    public ListItemsController(ItemRepositoryInterface itemStore, ShoppingCartInterface shoppingCart){
+    public ListItemsController(ItemDAOInterface itemStore, ShoppingCartInterface shoppingCart){
         this.itemStore = itemStore;
         this.shoppingCart = shoppingCart;
     }

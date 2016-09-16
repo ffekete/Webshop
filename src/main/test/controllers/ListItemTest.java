@@ -22,7 +22,7 @@ import domain.JoinedItemInterface;
 import domain.ShoppingCartInterface;
 import domain.Store;
 import domain.StoreInterface;
-import domain.repository.ItemRepositoryInterface;
+import domain.repository.ItemDAOInterface;
 
 public class ListItemTest {
 
@@ -36,7 +36,7 @@ public class ListItemTest {
     private ShoppingCartInterface mockedShoppingCart;
     
     @Mock
-    private ItemRepositoryInterface itemStore;
+    private ItemDAOInterface itemStore;
 
     void setUpMockedList(){
         ItemInterface book = new Item();

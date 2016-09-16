@@ -30,17 +30,31 @@
 				<th><spring:message code="item.name.literal"/></th>
 				<th><spring:message code="item.price.literal"/></th>
 				<th><spring:message code="item.description.literal"/></th>
+				<th><spring:message code="item.store.amount"/></th>
 				<th><spring:message code="item.quantity"/></th>
 				<th><spring:message code="action"/></th>
 			<tr>
 			<c:forEach items="${itemStoreModel}" var="item">
+			<form action="/webshop/addItem.html">
 			<tr>
 				<td><c:out value="${item.item.name}"/></td>
 				<td><c:out value="${item.item.price}"/></td>
 				<td><c:out value="${item.item.description}"/></td>
 				<td><c:out value="${item.store.amount}"/></td>
-				<c:if test="${item.store.amount > 0}"><td><input type="number" name="quantity" min="1" max="${item.store.amount}" step="1"/></td><td> <button onClick="parent.location='/webshop/addItem.html?id=${item.item.id}'"><spring:message code="item.buy"/></button></td></c:if>
+				
+				
+				<c:if test="${item.store.amount > 0}">
+					
+					<input type="hidden" name="id" value="${item.item.id}"/>
+					<td><input type="number" name="quantity" min="1" max="${item.store.amount}" step="1"/></td>
+					<td><input type="submit" value=<spring:message code="item.add_to_cart"/>/></td>
+				</c:if>
+				<c:if test="${item.store.amount == 0}">
+					<td><spring:message code="item.outOfStock"/></td>
+					<td></td>
+				</c:if>
 			</tr>
+			</form>
 			</c:forEach>
 		</table>
 </body>

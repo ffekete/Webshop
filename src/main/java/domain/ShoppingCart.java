@@ -3,15 +3,15 @@ package domain;
 import java.util.Iterator;
 import java.util.List;
 
-import domain.repository.ItemRepositoryInterface;
+import domain.repository.ItemDAOInterface;
 
 public class ShoppingCart implements ShoppingCartInterface{
 
-    private ItemRepositoryInterface itemRepository;
+    private ItemDAOInterface itemRepository;
     
     private List<ItemInterface> content;
     
-    public ShoppingCart(List<ItemInterface> content, ItemRepositoryInterface itemRepository){
+    public ShoppingCart(List<ItemInterface> content, ItemDAOInterface itemRepository){
         this.content = content;
         this.itemRepository = itemRepository;
     }
@@ -46,7 +46,7 @@ public class ShoppingCart implements ShoppingCartInterface{
         content.clear();
     }
 
-    private ItemInterface selectItemToRemoveWithGivenId(int id){
+    public ItemInterface selectItemById(int id){
         Iterator<ItemInterface> iterator = content.iterator();
         while(iterator.hasNext()){
             ItemInterface item = iterator.next();
@@ -59,7 +59,7 @@ public class ShoppingCart implements ShoppingCartInterface{
     
     @Override
     public void removeElementById(int id) {
-        ItemInterface itemToRemove = selectItemToRemoveWithGivenId(id);
+        ItemInterface itemToRemove = selectItemById(id);
         
         if(itemToRemove == null){
             throw new NullPointerException("Item cannot be removed with id " + id + ", because it does not exist in the shopping cart!");
