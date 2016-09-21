@@ -11,12 +11,14 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import config.queries.QueryConstants;
 import domain.Item;
 import domain.ItemInterface;
+import domain.JoinedItem;
 import domain.JoinedItemInterface;
 import domain.Store;
 import domain.StoreInterface;
@@ -40,6 +42,7 @@ public class ItemStoreTest{
     ItemDAO itemStore;
     
     ItemInterface book;
+    StoreInterface store;
     
     @BeforeClass
     void setup(){
@@ -48,16 +51,47 @@ public class ItemStoreTest{
         itemStore = new ItemDAO(factory);
         
         book = new Item();
+        store = new Store();
+        
+        Object[] joinedItem = new Object[]{book, store};
+        
+        mockedList.add(joinedItem);
+    }
+    
+    @AfterMethod
+    public void resetStoreAndBook(){
+        
         book.setId(1);
         book.setDescription("Description text");
         book.setName("Book");
         book.setPrice(201.05);
         
-        StoreInterface store = new Store();
         
-        Object[] joinedItem = new Object[]{book, store};
+        store.setId(1);
+        store.setAmount(5);
+    }
+    
+    @Test(expectedExceptions={IllegalArgumentException.class}, expectedExceptionsMessageRegExp="Requested amount is greater than actual amount in store for item Book.")
+    void testShouldThrowExceptionRequestedAmountIsGreaterThanInStore(){
+        JoinedItemInterface item = new JoinedItem();
+        item.setItem(book);
+        item.setStore(store);
         
-        mockedList.add(joinedItem);
+        itemStore.decreaseItemAmountInStore(item, 6);
+    }
+
+    @Test
+    void testShouldDecreasaeItemNumberInStore(){
+        Mockito.when(session.beginTransaction()).thenReturn(transaction);
+        Mockito.when(factory.openSession()).thenReturn(session);
+        
+        JoinedItemInterface item = new JoinedItem();
+        item.setItem(book);
+        item.setStore(store);
+        
+        itemStore.decreaseItemAmountInStore(item, 4);
+        
+        Assert.assertEquals(item.getStore().getAmount(), 1);
     }
     
     @Test

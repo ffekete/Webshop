@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import config.UrlConstants;
 import domain.ShoppingCartInterface;
+import domain.StoreInterface;
+import domain.repository.ItemDAOInterface;
 
 @Controller
 @RequestMapping(path=UrlConstants.ADD_ITEM_TO_CART_URL)
@@ -15,16 +17,23 @@ public class AddItemToShoppingCartController {
 
     private ShoppingCartInterface shoppingCart;
     
+    private ItemDAOInterface itemDao;
+    
     @Autowired
-    public AddItemToShoppingCartController(ShoppingCartInterface shoppingCart) {
+    public AddItemToShoppingCartController(ShoppingCartInterface shoppingCart, ItemDAOInterface itemDao) {
         this.shoppingCart = shoppingCart;
+        this.itemDao = itemDao;
     }
     
     @RequestMapping(method=RequestMethod.GET)
     public String additemToShoppingCart(@RequestParam(name="id", required=true) int id, @RequestParam(name="quantity", required=false) Integer quantity){
+        StoreInterface storeEntry = null;
         if(quantity!=null)
-            for(int i = 0; i < quantity; i++)
+            storeEntry = this.itemDao.findStoreEntryForItemId(id);
+            for(int i = 0; i < quantity; i++){
                 shoppingCart.addItemById(id);
+            }
+            this.itemDao.decreaseItemAmountInStore(storeEntry, quantity);
         
         return "redirect:list.html";
     }

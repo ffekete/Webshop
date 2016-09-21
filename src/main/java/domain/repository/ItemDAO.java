@@ -8,6 +8,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import config.queries.QueryConstants;
 import domain.ItemInterface;
@@ -70,7 +71,56 @@ public class ItemDAO implements ItemDAOInterface{
            e.printStackTrace(); 
         }finally {
            session.close(); 
-        } 
+        }
+        
+        return result;
+    }
+
+    @Override
+    public void decreaseItemAmountInStore(StoreInterface storeEntry, int amount) {
+        if(storeEntry.getAmount() < amount){
+            StringBuilder sb = new StringBuilder();
+            sb.append("Requested amount is greater than actual amount in store for item ");
+            throw new IllegalArgumentException(sb.toString());
+        }
+        
+        Session session = factory.openSession();
+        Transaction tx = null;
+        
+        try{
+           tx = session.beginTransaction();
+           Query<?> query = session.createQuery(QueryConstants.UPDATE_ITEM_AMOUNT_IN_STORE);
+           query.setParameter("id", storeEntry.getId());
+           query.setParameter("newAmount", storeEntry.getAmount() - amount);
+           query.executeUpdate();
+           tx.commit();
+        }catch (HibernateException e) {
+           if (tx!=null) tx.rollback();
+           e.printStackTrace(); 
+        }finally {
+           session.close(); 
+        }
+    }
+
+    @Override
+    public StoreInterface findStoreEntryForItemId(int itemId) {
+        StoreInterface result = null;
+        
+        Session session = factory.openSession();
+        Transaction tx = null;
+        
+        try{
+           tx = session.beginTransaction();
+           Query<?> query = session.createQuery(QueryConstants.QERY_STORE_BY_ITEM_ID_FROM_REPOSITORY);
+           query.setParameter("id", itemId);
+           result = (StoreInterface) query.getSingleResult();
+           tx.commit();
+        }catch (HibernateException e) {
+           if (tx!=null) tx.rollback();
+           e.printStackTrace(); 
+        }finally {
+           session.close(); 
+        }
         
         return result;
     }
