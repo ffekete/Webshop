@@ -7,29 +7,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import config.UrlConstants;
-import domain.ShoppingCartInterface;
-import domain.StoreInterface;
-import domain.repository.ItemDAOInterface;
+import service.ItemManagerInterface;
 
 @Controller
 @RequestMapping(path=UrlConstants.REMOVE_ITEM_FROM_CART_URL)
 public class RemoveItemFromShoppingCartController {
 
-    private ShoppingCartInterface shoppingCart;
-    
-    private ItemDAOInterface itemDAO;
+    private ItemManagerInterface itemManager;
     
     @Autowired
-    public RemoveItemFromShoppingCartController(ShoppingCartInterface shoppingCart, ItemDAOInterface itemDAO) {
-        this.shoppingCart = shoppingCart;
-        this.itemDAO = itemDAO;
+    public RemoveItemFromShoppingCartController(ItemManagerInterface itemManager) {
+        this.itemManager = itemManager;
     }
     
     @RequestMapping(method=RequestMethod.GET)
     public String removeItemfromShoppingCart(@RequestParam(name="id") int id){
-        shoppingCart.removeElementById(id);
-        StoreInterface storeEntry = itemDAO.findStoreEntryForItemId(id);
-        itemDAO.decreaseItemAmountInStore(storeEntry, -1);
+        itemManager.removeItemFromCart(id);
         return "redirect:list.html";
     }
 }

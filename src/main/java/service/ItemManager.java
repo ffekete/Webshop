@@ -4,7 +4,7 @@ import domain.ShoppingCartInterface;
 import domain.StoreInterface;
 import domain.repository.ItemDAOInterface;
 
-public class ItemManager {
+public class ItemManager implements ItemManagerInterface {
     private ShoppingCartInterface shoppingCart;
 
     private ItemDAOInterface itemDao;
@@ -14,6 +14,20 @@ public class ItemManager {
         this.itemDao = itemDao;
     }
     
+    /* (non-Javadoc)
+     * @see service.ItemManagerInterface#removeItemFromCart(int)
+     */
+    @Override
+    public void removeItemFromCart(int id){
+        shoppingCart.removeElementById(id);
+        StoreInterface storeEntry = itemDao.findStoreEntryForItemId(id);
+        itemDao.decreaseItemAmountInStore(storeEntry, -1);
+    }
+    
+    /* (non-Javadoc)
+     * @see service.ItemManagerInterface#addItemToCart(java.lang.Integer, java.lang.Integer)
+     */
+    @Override
     public boolean addItemToCart(Integer id, Integer quantity){
         StoreInterface storeEntry = null;
         

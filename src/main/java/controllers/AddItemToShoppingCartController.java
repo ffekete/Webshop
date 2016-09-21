@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import config.UrlConstants;
-import service.ItemManager;
+import service.ItemManagerInterface;
 
 @Controller
 @RequestMapping(path=UrlConstants.ADD_ITEM_TO_CART_URL)
 public class AddItemToShoppingCartController {
 
     @Autowired
-    private ItemManager itemManager; 
+    private ItemManagerInterface itemManager; 
     
     @RequestMapping(method=RequestMethod.GET)
     public String additemToShoppingCart(@RequestParam(name="id", required=true) int id, @RequestParam(name="quantity", required=false) Integer quantity){
