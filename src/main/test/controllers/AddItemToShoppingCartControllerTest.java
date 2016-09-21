@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -36,7 +36,7 @@ public class AddItemToShoppingCartControllerTest{
     StoreInterface store;
     
     @Mock
-    Session session;
+    private Session session;
     
     @SuppressWarnings("rawtypes")
     @Mock
@@ -48,6 +48,11 @@ public class AddItemToShoppingCartControllerTest{
     @Mock
     Transaction transaction;
     
+    @AfterMethod
+    public void validate() {
+        Mockito.validateMockitoUsage();
+    }
+    
     @BeforeMethod
     void resetMocks(){
         Mockito.reset(session);
@@ -56,7 +61,7 @@ public class AddItemToShoppingCartControllerTest{
         Mockito.when(session.createQuery(QueryConstants.UPDATE_ITEM_AMOUNT_IN_STORE)).thenReturn(query);
     }
     
-    @BeforeClass
+    @BeforeTest
     void setup() {
         MockitoAnnotations.initMocks(this);
         
@@ -81,7 +86,7 @@ public class AddItemToShoppingCartControllerTest{
     @Test
     void testShouldRedirectToListView() throws Exception{
         mvc.perform(MockMvcRequestBuilders.get(UrlConstants.ADD_ITEM_TO_CART_URL+"?id=0&quantity=1")).andExpect(MockMvcResultMatchers.redirectedUrl("list.html"));
-        Mockito.verify(session.createQuery(QueryConstants.QERY_STORE_BY_ITEM_ID_FROM_REPOSITORY), Mockito.calls(1));
+        Mockito.verify(session, Mockito.times(1)).createQuery(QueryConstants.QERY_STORE_BY_ITEM_ID_FROM_REPOSITORY);
     }
     
     @Test
@@ -89,11 +94,4 @@ public class AddItemToShoppingCartControllerTest{
         mvc.perform(MockMvcRequestBuilders.get(UrlConstants.ADD_ITEM_TO_CART_URL+"?id=0&quantity=1"));
         Mockito.verify(session, Mockito.times(1)).createQuery(QueryConstants.QERY_STORE_BY_ITEM_ID_FROM_REPOSITORY);
     }
-
-    @Test
-    void testShouldCallQueryOnce2() throws Exception{
-        mvc.perform(MockMvcRequestBuilders.get(UrlConstants.ADD_ITEM_TO_CART_URL+"?id=0&quantity=1"));
-        Mockito.verify(session, Mockito.times(1)).createQuery(QueryConstants.QERY_STORE_BY_ITEM_ID_FROM_REPOSITORY);
-    }
-
 }
