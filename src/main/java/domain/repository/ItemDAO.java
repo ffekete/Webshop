@@ -80,7 +80,7 @@ public class ItemDAO implements ItemDAOInterface{
     public void decreaseItemAmountInStore(StoreInterface storeEntry, int amount) {
         if(storeEntry.getAmount() < amount){
             StringBuilder sb = new StringBuilder();
-            sb.append("Requested amount is greater than actual amount in store for item ");
+            sb.append("Requested amount is greater than actual amount in store for item.");
             throw new IllegalArgumentException(sb.toString());
         }
         

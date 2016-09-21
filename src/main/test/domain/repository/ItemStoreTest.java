@@ -11,8 +11,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import config.queries.QueryConstants;
@@ -39,7 +39,7 @@ public class ItemStoreTest{
     
     private List<Object[]> mockedList = new LinkedList<Object[]>();
 
-    ItemDAO itemStore;
+    ItemDAO itemDAO;
     
     ItemInterface book;
     StoreInterface store;
@@ -48,7 +48,7 @@ public class ItemStoreTest{
     void setup(){
         MockitoAnnotations.initMocks(this);
         
-        itemStore = new ItemDAO(factory);
+        itemDAO = new ItemDAO(factory);
         
         book = new Item();
         store = new Store();
@@ -58,7 +58,7 @@ public class ItemStoreTest{
         mockedList.add(joinedItem);
     }
     
-    @AfterMethod
+    @BeforeMethod
     public void resetStoreAndBook(){
         
         book.setId(1);
@@ -71,27 +71,30 @@ public class ItemStoreTest{
         store.setAmount(5);
     }
     
-    @Test(expectedExceptions={IllegalArgumentException.class}, expectedExceptionsMessageRegExp="Requested amount is greater than actual amount in store for item Book.")
+    @Test(expectedExceptions={IllegalArgumentException.class}, expectedExceptionsMessageRegExp="Requested amount is greater than actual amount in store for item.")
     void testShouldThrowExceptionRequestedAmountIsGreaterThanInStore(){
         JoinedItemInterface item = new JoinedItem();
         item.setItem(book);
         item.setStore(store);
         
-        itemStore.decreaseItemAmountInStore(item, 6);
+        itemDAO.decreaseItemAmountInStore(store, 6);
     }
 
     @Test
     void testShouldDecreasaeItemNumberInStore(){
         Mockito.when(session.beginTransaction()).thenReturn(transaction);
         Mockito.when(factory.openSession()).thenReturn(session);
+        Mockito.when(session.createQuery(QueryConstants.UPDATE_ITEM_AMOUNT_IN_STORE)).thenReturn(query);
+
+        Mockito.when(query.setParameter(Mockito.anyString(), Mockito.anyInt())).thenReturn(query);
         
         JoinedItemInterface item = new JoinedItem();
         item.setItem(book);
         item.setStore(store);
         
-        itemStore.decreaseItemAmountInStore(item, 4);
+        itemDAO.decreaseItemAmountInStore(store, 4);
         
-        Assert.assertEquals(item.getStore().getAmount(), 1);
+        Mockito.verify(query, Mockito.times(1)).executeUpdate();
     }
     
     @Test
@@ -103,7 +106,7 @@ public class ItemStoreTest{
         Mockito.when(query.getResultList()).thenReturn(mockedList);
         Mockito.when(session.createQuery(QueryConstants.QERY_ALL_ITEMS_FROM_REPOSITORY)).thenReturn(query);
         
-        List<JoinedItemInterface> result = itemStore.listItems();
+        List<JoinedItemInterface> result = itemDAO.listItems();
         
         Assert.assertEquals(result.size(), 1);
         Assert.assertEquals(result.get(0).getItem(), book);
