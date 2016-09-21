@@ -28,13 +28,19 @@ public class AddItemToShoppingCartController {
     @RequestMapping(method=RequestMethod.GET)
     public String additemToShoppingCart(@RequestParam(name="id", required=true) int id, @RequestParam(name="quantity", required=false) Integer quantity){
         StoreInterface storeEntry = null;
-        if(quantity!=null)
+        String resultViewName = "redirect:list.html";
+        if(quantity!=null){
             storeEntry = this.itemDao.findStoreEntryForItemId(id);
             for(int i = 0; i < quantity; i++){
                 shoppingCart.addItemById(id);
             }
             this.itemDao.decreaseItemAmountInStore(storeEntry, quantity);
+        }
+        else
+        {
+            resultViewName = "error";
+        }
         
-        return "redirect:list.html";
+        return resultViewName;
     }
 }
