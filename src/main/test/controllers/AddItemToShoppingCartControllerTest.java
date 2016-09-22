@@ -23,6 +23,7 @@ import domain.Store;
 import domain.StoreInterface;
 import domain.repository.ItemDAO;
 import domain.repository.ItemDAOInterface;
+import service.ItemManager;
 
 public class AddItemToShoppingCartControllerTest{
 
@@ -78,7 +79,9 @@ public class AddItemToShoppingCartControllerTest{
         Mockito.when(session.createQuery(QueryConstants.UPDATE_ITEM_AMOUNT_IN_STORE)).thenReturn(query);
         itemDAO = new ItemDAO(factory);
         
-        AddItemToShoppingCartController addItemController = new AddItemToShoppingCartController(shoppingCart, itemDAO);
+        ItemManager itemManager = new ItemManager(itemDAO, shoppingCart);
+        
+        AddItemToShoppingCartController addItemController = new AddItemToShoppingCartController(itemManager);
         mvc = MockMvcBuilders.standaloneSetup(addItemController).build();
     }
     

@@ -16,6 +16,7 @@ import domain.ShoppingCartInterface;
 import domain.Store;
 import domain.StoreInterface;
 import domain.repository.ItemDAOInterface;
+import service.ItemManager;
 
 public class RemoveItemFromShoppingCartControllerTest{
 
@@ -40,7 +41,9 @@ public class RemoveItemFromShoppingCartControllerTest{
         
         Mockito.when(itemDAO.findStoreEntryForItemId(0)).thenReturn(store);
         
-        RemoveItemFromShoppingCartController removeItemController = new RemoveItemFromShoppingCartController(shoppingCart, itemDAO);
+        ItemManager itemManager = new ItemManager(itemDAO, shoppingCart);
+        
+        RemoveItemFromShoppingCartController removeItemController = new RemoveItemFromShoppingCartController(itemManager);
         mvc = MockMvcBuilders.standaloneSetup(removeItemController).build();
     }
     

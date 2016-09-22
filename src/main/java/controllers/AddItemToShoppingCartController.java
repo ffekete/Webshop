@@ -12,9 +12,13 @@ import service.ItemManagerInterface;
 @Controller
 @RequestMapping(path=UrlConstants.ADD_ITEM_TO_CART_URL)
 public class AddItemToShoppingCartController {
-
-    @Autowired
+    
     private ItemManagerInterface itemManager; 
+    
+    @Autowired
+    public AddItemToShoppingCartController(ItemManagerInterface itemManager){
+        this.itemManager = itemManager;
+    }
     
     @RequestMapping(method=RequestMethod.GET)
     public String additemToShoppingCart(@RequestParam(name="id", required=true) int id, @RequestParam(name="quantity", required=false) Integer quantity){
