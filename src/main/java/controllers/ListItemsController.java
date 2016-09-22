@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import config.ModelNameConstants;
 import config.UrlConstants;
+import config.view.LogicalViewNames;
 import domain.ItemInterface;
 import domain.JoinedItemInterface;
 import domain.ShoppingCartInterface;
@@ -40,7 +41,7 @@ public class ListItemsController {
     
     @RequestMapping(method = RequestMethod.GET)
     public String listItems(){
-        return "list";
+        return LogicalViewNames.LIST_VIEW_LOGICAL_NAME;
     }
     
     

@@ -13,9 +13,12 @@
    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 	<context:component-scan base-package="controllers" />
+	
 
 	<mvc:resources mapping="/themes/**" location="/themes/" />
-
+	
+	<mvc:annotation-driven/> <!-- without this @ControllerAdvice would not work -->
+	 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/jsp/" />

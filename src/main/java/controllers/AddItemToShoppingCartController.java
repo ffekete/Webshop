@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import config.UrlConstants;
+import config.requestparameters.RequestParameters;
+import config.view.LogicalViewNames;
 import service.ItemManagerInterface;
 
 @Controller
@@ -21,15 +23,9 @@ public class AddItemToShoppingCartController {
     }
     
     @RequestMapping(method=RequestMethod.GET)
-    public String additemToShoppingCart(@RequestParam(name="id", required=true) int id, @RequestParam(name="quantity", required=false) Integer quantity){
-        String resultViewName = "redirect:list.html";
-        boolean result = itemManager.addItemToCart(id, quantity);
-        
-        if(result == false)
-        {
-            resultViewName = "error";
-        }
-        
-        return resultViewName;
+    public String additemToShoppingCart(@RequestParam(name=RequestParameters.ID, required=true) int id, @RequestParam(name=RequestParameters.QUANTITY, required=false) Integer quantity){
+        itemManager.addItemToCart(id, quantity);
+
+        return LogicalViewNames.REDIRECT_TO_LIST_VIEW_LOGICAL_NAME;
     }
 }

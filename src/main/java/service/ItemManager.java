@@ -14,9 +14,6 @@ public class ItemManager implements ItemManagerInterface {
         this.itemDao = itemDao;
     }
     
-    /* (non-Javadoc)
-     * @see service.ItemManagerInterface#removeItemFromCart(int)
-     */
     @Override
     public void removeItemFromCart(int id){
         shoppingCart.removeElementById(id);
@@ -24,21 +21,20 @@ public class ItemManager implements ItemManagerInterface {
         itemDao.decreaseItemAmountInStore(storeEntry, -1);
     }
     
-    /* (non-Javadoc)
-     * @see service.ItemManagerInterface#addItemToCart(java.lang.Integer, java.lang.Integer)
-     */
     @Override
-    public boolean addItemToCart(Integer id, Integer quantity){
+    public void addItemToCart(Integer itemId, Integer quantity){
         StoreInterface storeEntry = null;
         
-        if(quantity!=null && id != null){
-            storeEntry = this.itemDao.findStoreEntryForItemId(id);
+        if(quantity!=null && itemId != null){
+            storeEntry = this.itemDao.findStoreEntryForItemId(itemId);
             for(int i = 0; i < quantity; i++){
-                shoppingCart.addItemById(id);
+                shoppingCart.addItemById(itemId);
             }
             this.itemDao.decreaseItemAmountInStore(storeEntry, quantity);
-            return true;
         }
-        return false;
+        else
+        {
+            throw new NullPointerException("Item id or quantity parameter is missing from the query parameters list!");
+        }
     }
 }
