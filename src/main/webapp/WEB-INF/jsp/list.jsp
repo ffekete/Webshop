@@ -18,7 +18,7 @@
 			<tr>
 			<c:forEach items="${shoppingCartModel}" var="item">
 			<tr>
-				<td><c:out value="${item.name}"/></td>
+				<td><c:out  value="${item.name}"/></td>
 				<td><c:out value="${item.price}"/></td>
 				<td><button onClick="parent.location='/webshop/removeItem.html?id=${item.id}'"><spring:message code="item.remove"/></button></td>
 			</tr>
@@ -37,7 +37,7 @@
 			<c:forEach items="${itemStoreModel}" var="item">
 			<form action="/webshop/addItem.html">
 			<tr>
-				<td><c:out value="${item.item.name}"/></td>
+				<td><a href="/webshop/details.html?id=${item.item.id}"><c:out value="${item.item.name}"/></a></td>
 				<td><c:out value="${item.item.price}"/></td>
 				<td><c:out value="${item.item.description}"/></td>
 				<td><c:out value="${item.store.amount}"/></td>
