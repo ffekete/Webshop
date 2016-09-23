@@ -7,8 +7,9 @@
 	<bean id="itemStore" class="domain.repository.ItemDAO">
 		<constructor-arg name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	
-	<bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+
+	<bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
 		<property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver" />
 		<property name="url" value="jdbc:derby://localhost:1527/test" />
 		<property name="username" value="root" />
@@ -28,6 +29,15 @@
 			<value>
 				org.hibernate.dialect.DerbyDialect
 			</value>
+		</property>
+	</bean>
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>url\urls</value>
+			</list>
 		</property>
 	</bean>
 </beans>

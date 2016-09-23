@@ -20,7 +20,7 @@
 			<tr>
 				<td><c:out  value="${item.name}"/></td>
 				<td><c:out value="${item.price}"/></td>
-				<td><button onClick="parent.location='/webshop/removeItem.html?id=${item.id}'"><spring:message code="item.remove"/></button></td>
+				<td><button onClick="parent.location='${removeItemFromCartActionUrl}${item.id}'"><spring:message code="item.remove"/></button></td>
 			</tr>
 			</c:forEach>
 		</table>
@@ -35,7 +35,7 @@
 				<th><spring:message code="action"/></th>
 			<tr>
 			<c:forEach items="${itemStoreModel}" var="item">
-			<form action="/webshop/addItem.html">
+			<form action="${addItemActionUrl}">
 			<tr>
 				<td><a href="/webshop/details.html?id=${item.item.id}"><c:out value="${item.item.name}"/></a></td>
 				<td><c:out value="${item.item.price}"/></td>

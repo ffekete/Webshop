@@ -13,7 +13,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import config.ModelNameConstants;
 import config.UrlConstants;
 import domain.Item;
 import domain.ItemInterface;
@@ -67,13 +66,5 @@ public class ListItemTest {
     void testShouldReturnListView() throws Exception {
         Mockito.when(itemStore.listItems()).thenReturn(mockedList);
         mvc.perform(MockMvcRequestBuilders.get(UrlConstants.LIST_ITEMS_IN_WEBSHOP_URL)).andExpect(MockMvcResultMatchers.view().name("list"));
-    }
-    
-    @Test
-    void testResultShouldContainProperModelName() throws Exception{
-        Mockito.when(itemStore.listItems()).thenReturn(mockedList);
-        Mockito.when(mockedShoppingCart.getAllItems()).thenReturn(mockedShoppingCartList);
-        
-        mvc.perform(MockMvcRequestBuilders.get(UrlConstants.LIST_ITEMS_IN_WEBSHOP_URL)).andExpect(MockMvcResultMatchers.model().attributeExists(ModelNameConstants.ITEM_STORE_MODEL_NAME));
     }
 }
