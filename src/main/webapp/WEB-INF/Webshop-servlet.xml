@@ -19,6 +19,7 @@
 	
 	<mvc:annotation-driven/> <!-- without this @ControllerAdvice would not work -->
 	 
+		
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/jsp/" />
@@ -36,6 +37,7 @@
 			<list>
 				<value>list</value>
 				<value>error</value>
+				<value>login</value>
 			</list>
 		</property>
 	</bean>
