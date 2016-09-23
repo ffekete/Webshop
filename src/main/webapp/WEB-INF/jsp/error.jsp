@@ -12,6 +12,6 @@
 	<h3>Some error happened :(</h3>
 	<h4>More details about the error:</h4>
 	${exception.message}
-	<a href="/webshop/list.html"><spring:message code="error.back"/></a>
+	<a href="${previousUrl}"><spring:message code="error.back"/></a>
 </body>
 </html>

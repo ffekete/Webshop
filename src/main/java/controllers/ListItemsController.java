@@ -40,7 +40,5 @@ public class ListItemsController {
         modelAndView.addObject("shoppingCartModel", shoppingCart.getAllItems());
         modelAndView.setViewName(LogicalViewNames.LIST_VIEW_LOGICAL_NAME);
         return modelAndView;
-    }
-    
-    
+    }   
 }
