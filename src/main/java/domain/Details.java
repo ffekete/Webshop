@@ -1,15 +1,13 @@
 package domain;
 
-public class Item implements ItemInterface{
-    private StoreInterface store;
-    
-    private int id;
-    
+public class Details implements DetailsInterface{
     private double price;
     
     private String name;
     
     private String description;
+    
+    private int amount;
     
     public void setPrice(double price) {
         this.price = price;
@@ -35,20 +33,13 @@ public class Item implements ItemInterface{
         return this.description;
     }
 
-    public int getId() {
-        return this.id;
-    }
-    
-    public void setId(int id){
-        this.id = id;
+    @Override
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
-    public StoreInterface getStore() {
-        return store;
+    @Override
+    public int getAmount() {
+        return this.amount;
     }
-
-    public void setStore(StoreInterface store) {
-        this.store = store;
-    }
-
 }

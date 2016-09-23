@@ -6,4 +6,5 @@ public class UrlConstants {
     public static final String ADD_ITEM_TO_CART_URL = "/addItem.html";
     public static final String REMOVE_ITEM_FROM_CART_URL = "/removeItem.html";
     public static final String DETAILS_URL = "/details.html";
+    public static final String REQUEST_DETAILS_REST_URL = "/getDetails.html";
 }

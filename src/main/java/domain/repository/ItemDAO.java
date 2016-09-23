@@ -56,6 +56,34 @@ public class ItemDAO implements ItemDAOInterface{
     }
 
     @Override
+    public JoinedItemInterface findJoinedItemById(int id) {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        
+        JoinedItemInterface item = new JoinedItem();
+        
+        try{
+           tx = session.beginTransaction();
+           Query<?>query = session.createQuery(QueryConstants.QERY_ITEM_FROM_REPOSITORY_WHERE_ID_IS_GIVEN);
+           query.setParameter("id", id);
+          
+           Object[] actualPairOfItemAndStore = (Object[])query.getSingleResult();
+           item.setItem((ItemInterface)actualPairOfItemAndStore[0]);
+           item.setStore((StoreInterface)actualPairOfItemAndStore[1]);
+           
+           tx.commit();
+        }catch (HibernateException|ClassCastException|NullPointerException e) {
+           if (tx!=null) tx.rollback();
+           e.printStackTrace(); 
+        }
+        finally {
+           session.close(); 
+        }        
+ 
+        return item;
+    }
+    
+    @Override
     public ItemInterface findElementById(int id) {
         ItemInterface result = null;
         

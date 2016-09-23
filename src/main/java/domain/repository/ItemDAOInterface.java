@@ -15,4 +15,6 @@ public interface ItemDAOInterface {
     public void decreaseItemAmountInStore(StoreInterface storeEntry, int amount);
     
     public StoreInterface findStoreEntryForItemId(int itemId);
+    
+    public JoinedItemInterface findJoinedItemById(int id);
 }
