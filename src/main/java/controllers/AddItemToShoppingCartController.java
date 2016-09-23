@@ -16,7 +16,7 @@ import service.ItemManagerInterface;
 @RequestMapping(path=UrlConstants.ADD_ITEM_TO_CART_URL)
 public class AddItemToShoppingCartController {
     
-    private ItemManagerInterface itemManager; 
+    private ItemManagerInterface itemManager;
     
     @Autowired
     public AddItemToShoppingCartController(ItemManagerInterface itemManager){
@@ -24,7 +24,7 @@ public class AddItemToShoppingCartController {
     }
     
     @RequestMapping(method=RequestMethod.GET)
-    public ModelAndView additemToShoppingCart(@RequestParam(name=RequestParameters.ID, required=true) int id, @RequestParam(name=RequestParameters.QUANTITY, required=false) Integer quantity){
+    public ModelAndView additemToShoppingCart(@RequestParam(name=RequestParameters.ID) Integer id, @RequestParam(name=RequestParameters.QUANTITY) Integer quantity){
         itemManager.addItemToCart(id, quantity);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName(LogicalViewNames.REDIRECT_TO_LIST_VIEW_LOGICAL_NAME);

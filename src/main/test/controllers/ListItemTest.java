@@ -2,10 +2,15 @@ package controllers;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.testng.PowerMockTestCase;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -23,20 +28,19 @@ import domain.Store;
 import domain.StoreInterface;
 import domain.repository.ItemDAOInterface;
 
-public class ListItemTest {
+@PrepareForTest(ResourceBundleMessageSource.class)
+public class ListItemTest extends PowerMockTestCase{
 
     private MockMvc mvc;
     
     private List<JoinedItemInterface> mockedList = new LinkedList<JoinedItemInterface>();
-    
-    private List<ItemInterface> mockedShoppingCartList = new LinkedList<ItemInterface>();
     
     @Mock
     private ShoppingCartInterface mockedShoppingCart;
     
     @Mock
     private ItemDAOInterface itemStore;
-
+    
     void setUpMockedList(){
         ItemInterface book = new Item();
         book.setId(1);
@@ -58,7 +62,10 @@ public class ListItemTest {
     @BeforeClass
     void setup() {
         setUpMockedList();
-        ListItemsController listItemsController = new ListItemsController(itemStore, mockedShoppingCart);
+        final ResourceBundleMessageSource messageSource = PowerMockito.mock(ResourceBundleMessageSource.class);
+        
+        PowerMockito.when(messageSource.getMessage(Mockito.anyString(), Mockito.any(Object[].class), Mockito.any(Locale.class))).thenReturn("");
+        ListItemsController listItemsController = new ListItemsController(itemStore, mockedShoppingCart, messageSource);
         mvc = MockMvcBuilders.standaloneSetup(listItemsController).build();
     }
     

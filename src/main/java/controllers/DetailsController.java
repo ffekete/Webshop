@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import config.UrlConstants;
 import config.view.LogicalViewNames;
@@ -13,7 +14,9 @@ import config.view.LogicalViewNames;
 public class DetailsController {
     
     @RequestMapping(method = RequestMethod.GET)
-    public String getDatailsOfItem(@RequestParam Integer id){
-        return LogicalViewNames.DETAILS_VIEW_LOGICAL_NAME;
+    public ModelAndView getDatailsOfItem(@RequestParam Integer id){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName(LogicalViewNames.DETAILS_VIEW_LOGICAL_NAME);
+        return modelAndView;
     }
 }

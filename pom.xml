@@ -88,8 +88,22 @@
 			<version>1.4</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.powermock/powermock-api-mockito -->
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>1.6.5</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.powermock/powermock-module-testng -->
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-testng</artifactId>
+			<version>1.6.5</version>
+		</dependency>
 
 	</dependencies>
+
 	<build>
 		<finalName>webshop</finalName>
 		<plugins>

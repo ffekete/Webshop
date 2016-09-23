@@ -5,8 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import config.UrlConstants;
+import config.view.LogicalViewNames;
 import service.ItemManagerInterface;
 
 @Controller
@@ -21,8 +23,10 @@ public class RemoveItemFromShoppingCartController {
     }
     
     @RequestMapping(method=RequestMethod.GET)
-    public String removeItemfromShoppingCart(@RequestParam(name="id") int id){
+    public ModelAndView removeItemfromShoppingCart(@RequestParam(name="id") Integer id){
+        ModelAndView modelAndView = new ModelAndView();
         itemManager.removeItemFromCart(id);
-        return "redirect:list.html";
+        modelAndView.setViewName(LogicalViewNames.REDIRECT_TO_LIST_VIEW_LOGICAL_NAME);
+        return modelAndView;
     }
 }
