@@ -35,7 +35,7 @@
 				<th><spring:message code="action"/></th>
 			<tr>
 			<c:forEach items="${itemStoreModel}" var="item">
-			<form action="${addItemActionUrl}">
+			<form class="form" action="${addItemActionUrl}">
 			<tr>
 				<td><a href="/webshop/details.html?id=${item.item.id}"><c:out value="${item.item.name}"/></a></td>
 				<td><c:out value="${item.item.price}"/></td>
@@ -47,7 +47,7 @@
 					
 					<input type="hidden" name="id" value="${item.item.id}"/>
 					<td><input type="number" name="quantity" min="1" max="${item.store.amount}" step="1"/></td>
-					<td><input type="submit" value="<spring:message code="item.add_to_cart"/>"/></td>
+					<td><input type="submit" class="btn btn-default" value="<spring:message code="item.add_to_cart"/>"/></td>
 				</c:if>
 				<c:if test="${item.store.amount == 0}">
 					<td><spring:message code="item.outOfStock"/></td>
